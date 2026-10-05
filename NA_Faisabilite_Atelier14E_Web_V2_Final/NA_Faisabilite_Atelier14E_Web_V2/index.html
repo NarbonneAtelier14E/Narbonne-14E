@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#073e5b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Faisabilité Atelier 14E — Narbonne Accessoires</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <img class="brand-logo" src="assets/logo-na.png" alt="Narbonne Accessoires" />
+      <div class="header-copy">
+        <span class="eyebrow">ATELIER 14E · SAINTE-EULALIE</span>
+        <h1>Faisabilité technique</h1>
+        <p>Pré-contrôle avant devis / commande / pose</p>
+      </div>
+      <div class="header-actions no-print">
+        <button class="icon-btn" id="installBtn" hidden title="Installer l'application" aria-label="Installer l'application">⇩</button>
+        <button class="icon-btn" id="settingsBtn" title="Réglages" aria-label="Réglages">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="status-bar no-print">
+      <div><span class="status-dot saved" id="saveDot"></span><strong id="saveStatus">Enregistré localement</strong></div>
+      <div class="status-ref">Dossier <span id="dossierRefTop">—</span> <span class="workflow-pill draft" id="workflowStatus">Brouillon</span></div>
+    </section>
+
+    <form id="feasibilityForm" autocomplete="on">
+      <section class="panel" id="dossierSection">
+        <div class="section-heading">
+          <div class="section-number">01</div>
+          <div><h2>Dossier & intervenants</h2><p>Informations de traçabilité de la demande.</p></div>
+        </div>
+        <div class="grid cols-4">
+          <label class="field"><span>Référence dossier</span><input id="dossierRef" name="dossierRef" readonly /></label>
+          <label class="field"><span>Date</span><input id="date" name="date" type="date" required /></label>
+          <label class="field col-span-2"><span>Objet / référence devis</span><input id="objet" name="objet" placeholder="Ex. Conversion lithium + antenne 5G" /></label>
+        </div>
+
+        <div class="people-grid">
+          <fieldset class="choice-group">
+            <legend>Vendeur</legend>
+            <div class="segmented people">
+              <label><input type="radio" name="vendeur" value="Manu — EMVID"><span><strong>Manu</strong><small>EMVID</small></span></label>
+              <label><input type="radio" name="vendeur" value="Geoffrey — GEREJ"><span><strong>Geoffrey</strong><small>GEREJ</small></span></label>
+              <label><input type="radio" name="vendeur" value="Samuel — SAFER"><span><strong>Samuel</strong><small>SAFER</small></span></label>
+              <label><input type="radio" name="vendeur" value="Yann — YANVA"><span><strong>Yann</strong><small>YANVA</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset class="choice-group">
+            <legend>Technicien</legend>
+            <div class="segmented people techs">
+              <label><input type="radio" name="technicien" value="Julien — JUMON"><span><strong>Julien</strong><small>JUMON</small></span></label>
+              <label><input type="radio" name="technicien" value="Clément — CLPIC"><span><strong>Clément</strong><small>CLPIC</small></span></label>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div class="section-number">02</div>
+          <div><h2>Client & véhicule</h2><p>Saisie rapide, formatage automatique et données normalisées.</p></div>
+        </div>
+
+        <div class="grid cols-4">
+          <label class="field col-span-2"><span>Nom / raison sociale client</span><input id="client" name="client" autocomplete="name" placeholder="Nom du client" required /></label>
+          <label class="field"><span>Téléphone</span><div class="input-prefix"><span class="prefix-chip">+33</span><input id="telephone" name="telephone" inputmode="tel" autocomplete="tel" placeholder="06 47 65 06 04" maxlength="20" /></div><small id="phoneNormalized" class="field-hint"></small></label>
+          <label class="field"><span>E-mail</span><div class="input-prefix"><span class="prefix-symbol">@</span><input id="email" name="email" type="email" autocomplete="email" placeholder="client@exemple.fr" /></div></label>
+
+          <label class="field"><span>Marque cellule</span><input id="marque" name="marque" list="vehicleBrands" placeholder="Choisir ou saisir" /></label>
+          <label class="field"><span>Modèle</span><input id="modele" name="modele" placeholder="Ex. P690 Aventura" /></label>
+          <label class="field"><span>Porteur</span><input id="porteur" name="porteur" list="baseVehicles" placeholder="Ex. Fiat Ducato" /></label>
+          <label class="field"><span>Année</span><input id="annee" name="annee" type="number" min="1960" max="2100" inputmode="numeric" placeholder="2024" /></label>
+
+          <label class="field"><span>Immatriculation</span><input id="immat" name="immat" autocapitalize="characters" spellcheck="false" placeholder="AA-123-AA ou 1234 AB 33" /></label>
+          <label class="field"><span>VIN / châssis</span><input id="vin" name="vin" autocapitalize="characters" spellcheck="false" placeholder="17 caractères" maxlength="24" /></label>
+          <label class="field"><span>Kilométrage</span><div class="input-suffix"><input id="km" name="km" type="number" min="0" inputmode="numeric" placeholder="0" /><span>km</span></div></label>
+          <label class="field"><span>N° client / dossier</span><input id="clientNo" name="clientNo" placeholder="Optionnel" /></label>
+        </div>
+
+        <fieldset class="choice-group vehicle-type">
+          <legend>Type de véhicule</legend>
+          <div class="segmented vehicle-types">
+            <label><input type="radio" name="typeVehicule" value="Profilé"><span>Profilé</span></label>
+            <label><input type="radio" name="typeVehicule" value="Intégral"><span>Intégral</span></label>
+            <label><input type="radio" name="typeVehicule" value="Capucine"><span>Capucine</span></label>
+            <label><input type="radio" name="typeVehicule" value="Fourgon"><span>Fourgon</span></label>
+            <label><input type="radio" name="typeVehicule" value="Van"><span>Van</span></label>
+            <label><input type="radio" name="typeVehicule" value="Caravane"><span>Caravane</span></label>
+            <label><input type="radio" name="typeVehicule" value="Autre"><span>Autre</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading with-counter">
+          <div class="section-number">03</div>
+          <div><h2>Accessoires concernés</h2><p>Sélectionner les éléments à étudier, chiffrer ou commander.</p></div>
+          <div class="counter-pill"><span id="accessoryCount">0</span> sélectionné(s)</div>
+        </div>
+        <div class="accessory-grid" id="accessoryGrid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div class="section-number">04</div>
+          <div><h2>Faisabilité & compléments</h2><p>Conclusion technique, contraintes et besoins additionnels.</p></div>
+        </div>
+
+        <fieldset class="choice-group verdict-group">
+          <legend>Avis technique</legend>
+          <div class="segmented verdicts">
+            <label><input type="radio" name="avis" value="Faisable"><span>✓ Faisable</span></label>
+            <label><input type="radio" name="avis" value="Faisable avec réserves"><span>△ Avec réserves</span></label>
+            <label><input type="radio" name="avis" value="Contrôle complémentaire"><span>⌕ Contrôle complémentaire</span></label>
+            <label><input type="radio" name="avis" value="Non faisable"><span>× Non faisable</span></label>
+          </div>
+        </fieldset>
+
+        <div class="grid cols-2">
+          <label class="field"><span>Main-d’œuvre complémentaire</span><select id="moComp" name="moComp"><option value="">À définir</option><option>Aucune</option><option>&lt; 1 h</option><option>1 à 2 h</option><option>2 à 4 h</option><option>4 à 8 h</option><option>&gt; 8 h</option></select></label>
+          <label class="field"><span>Fournitures complémentaires</span><input id="fournitures" name="fournitures" placeholder="Câblage, renfort, fusibles, adaptateurs…" /></label>
+          <label class="field col-span-2"><span>Contraintes / contrôles nécessaires</span><textarea id="contraintes" name="contraintes" rows="3" placeholder="Passage de câbles, renforts, dimensions, charge utile, accès, alimentation…"></textarea></label>
+          <label class="field col-span-2"><span>Préconisations technicien</span><textarea id="preconisations" name="preconisations" rows="4" placeholder="Solution recommandée, références compatibles, réserves techniques…"></textarea></label>
+        </div>
+      </section>
+
+      <section class="panel vehicle-plan-panel">
+        <div class="section-heading">
+          <div class="section-number">05</div>
+          <div><h2>Positionnement sur le véhicule</h2><p>Dessiner au doigt ou au stylet : emplacement, câblage, perçage, renfort, dimensions.</p></div>
+          <div class="draw-tools no-print">
+            <button type="button" class="tool-btn active" data-tool="pen">✎ Stylet</button>
+            <button type="button" class="tool-btn" data-tool="eraser">⌫ Gomme</button>
+            <button type="button" class="tool-btn" id="undoDraw">↶ Annuler</button>
+            <button type="button" class="tool-btn danger" id="clearDraw">Effacer</button>
+          </div>
+        </div>
+        <div class="drawing-wrap" id="drawingWrap">
+          <div class="drawing-grid"></div>
+          <img src="assets/vehicle-cutaway.png" alt="Vue latérale du véhicule" id="vehicleImage" draggable="false" />
+          <canvas id="drawingCanvas"></canvas>
+        </div>
+        <label class="field plan-note"><span>Notes de positionnement</span><textarea id="positionNotes" name="positionNotes" rows="3" placeholder="Ex. Batterie sous banquette droite, convertisseur à moins de 1 m, passage 35 mm²…"></textarea></label>
+      </section>
+
+      <section class="panel validation-panel">
+        <div class="section-heading">
+          <div class="section-number">06</div>
+          <div><h2>Validation & traçabilité</h2><p>Archiver le dossier puis transmettre le compte rendu.</p></div>
+        </div>
+        <div class="grid cols-3">
+          <label class="check-card"><input id="telUpToDate" name="telUpToDate" type="checkbox" /><span><strong>Téléphone client à jour</strong><small>Coordonnées vérifiées</small></span></label>
+          <label class="check-card"><input id="clientInformed" name="clientInformed" type="checkbox" /><span><strong>Client informé</strong><small>Réserves / compléments expliqués</small></span></label>
+          <label class="check-card"><input id="vendorValidated" name="vendorValidated" type="checkbox" /><span><strong>Retour vendeur effectué</strong><small>Faisabilité communiquée</small></span></label>
+        </div>
+        <label class="field"><span>Note interne finale</span><textarea id="finalNote" name="finalNote" rows="3" placeholder="Éléments utiles au suivi du dossier…"></textarea></label>
+      </section>
+
+      <div class="action-bar no-print">
+        <button type="button" class="btn ghost" id="newBtn">Nouveau</button>
+        <button type="button" class="btn ghost" id="historyBtn">Historique</button>
+        <button type="button" class="btn secondary" id="saveBtn">Enregistrer</button>
+        <button type="button" class="btn secondary" id="pdfBtn">Générer le PDF</button>
+        <button type="button" class="btn primary" id="validateBtn">Valider & transmettre</button>
+      </div>
+    </form>
+  </main>
+
+  <datalist id="vehicleBrands"></datalist>
+  <datalist id="baseVehicles"></datalist>
+
+  <dialog id="settingsDialog" class="modal">
+    <form method="dialog" class="modal-card" id="settingsForm">
+      <div class="modal-head"><div><span class="eyebrow dark">RÉGLAGES APPAREIL</span><h3>Configuration Atelier 14E</h3></div><button class="icon-btn light" value="cancel" aria-label="Fermer">×</button></div>
+      <div class="modal-body">
+        <label class="field"><span>E-mail destinataire par défaut</span><input id="defaultRecipient" type="email" placeholder="atelier14e@exemple.fr" /><small class="field-hint">Préremplit le destinataire, mais reste modifiable à chaque envoi.</small></label>
+        <label class="field"><span>Nom du magasin / atelier</span><input id="storeName" value="Narbonne Accessoires — Atelier 14E Sainte-Eulalie" /></label>
+        <details class="advanced" open><summary>Connexion au service d'envoi sécurisé</summary><p>GitHub Pages héberge l'application. L'envoi automatique du PDF passe par un petit service sécurisé séparé afin que la clé e-mail ne soit jamais visible dans le navigateur.</p><label class="field"><span>URL API d'envoi</span><input id="emailApiUrl" type="url" placeholder="https://na14e-mail.votre-compte.workers.dev" /></label><small class="field-hint">Cette URL est fournie après le déploiement du Cloudflare Worker inclus dans le pack.</small><label class="field"><span>Code d'envoi interne</span><input id="emailApiPin" type="password" autocomplete="off" placeholder="Code défini dans le Worker" /></label></details>
+      </div>
+      <div class="modal-actions"><button class="btn ghost" value="cancel">Annuler</button><button type="button" class="btn primary" id="saveSettings">Enregistrer</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="historyDialog" class="modal wide">
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="eyebrow dark">TRAÇABILITÉ LOCALE</span><h3>Historique des dossiers</h3></div><button class="icon-btn light" id="closeHistory" aria-label="Fermer">×</button></div>
+      <div class="modal-body"><div id="historyList" class="history-list"></div></div>
+    </div>
+  </dialog>
+
+
+  <dialog id="validationDialog" class="modal wide validation-modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><span class="eyebrow dark">VALIDATION FINALE</span><h3>Rapport & transmission</h3></div>
+        <button class="icon-btn light" id="closeValidation" aria-label="Fermer">×</button>
+      </div>
+      <div class="modal-body validation-body">
+        <div class="validation-summary" id="validationSummary"></div>
+        <div class="send-grid">
+          <label class="field"><span>Destinataire *</span><input id="sendTo" type="email" placeholder="destinataire@exemple.fr" /></label>
+          <label class="field"><span>Copie (CC)</span><input id="sendCc" type="email" placeholder="copie@exemple.fr" /></label>
+          <label class="field col-span-2"><span>Objet</span><input id="sendSubject" type="text" /></label>
+          <label class="field col-span-2"><span>Message</span><textarea id="sendMessage" rows="5"></textarea></label>
+        </div>
+        <div class="send-status" id="sendStatus" aria-live="polite"></div>
+      </div>
+      <div class="modal-actions validation-actions">
+        <button type="button" class="btn ghost" id="previewPdfBtn">Aperçu PDF</button>
+        <button type="button" class="btn secondary" id="downloadPdfBtn">Télécharger PDF</button>
+        <button type="button" class="btn primary" id="sendPdfBtn">Valider & envoyer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
